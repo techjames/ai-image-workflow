@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background: url(static/main_bg.jpg) no-repeat center fixed;
+            background-size: cover;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h2>{{ title }}</h2>
+            <h5>
+                <ul>
+                    <li>
+                        This Python Flask application uses an (AI) artificial intelligence API which can recognise objects in images.
+                    </li>
+                    <li>
+                        Just insert a URL to an image and press Go!
+                    </li>
+                    <li>
+                        GitHub:
+                    </li>
+                </ul>
+            </h5>
+        </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form action="/" method="post">
+
+                        <div class="row">
+                            <div id="photo" class="col-xs-7">
+                                <img src="{{ imglink }}" width="636" height="340" class="img-thumbnail" />
+
+                                {% for image in images %}
+                                <h4>
+                                    <span class="label {{image.label_css}}" style="position: absolute; top: {{image.top}}px; left: {{image.left}}px;">
+                                        {{image.label}}
+                                    </span>
+                                </h4>
+                                {% endfor %}
+
+                            </div>
+                            <div>
+                                {% for image in images %}
+                                <span class="label {{image.label_css}}">
+                                    {{image.label}}
+                                </span> <span class="label label-danger">Confidence</span> <span class="badge">{{image.confidence}}%</span>
+                                <br />
+                                {% endfor %}
+                            </div>
+                        </div>
+                            <div class="row">
+                                <div class="col-xs-7">
+                                    <input type="url" name="imglink" id="imglink" placeholder="Insert image URL here" class="form-control" />
+                                </div>
+                                <div>
+                                    <input type="submit" value="Go" id="btn1" class="btn btn-success" />
+                                </div>
+                            </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="comment">AI generated XML:</label>
+                        <textarea class="form-control" rows="5" id="comment" style="resize: none;">
+                        <IMAGE>
+                        <URL>{{ imglink }}</URL>
+                        {% for image in images %}<OBJECT>{{image.label}}</OBJECT>
+                        {% endfor %}</IMAGE>
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+</body>
+</html>
